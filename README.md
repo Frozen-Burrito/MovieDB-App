@@ -1,12 +1,12 @@
-# movie_app_2
+# Movie App
 
-A new Flutter project.
+A Flutter-based app that includes api calls, dart packages and a material design.
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+This project was created using Flutter. You can download the source code posted in this page, clone the repo or download the full app on a mobile android device [here]()
 
-A few resources to get you started if this is your first Flutter project:
+## Flutter Documentation
 
 - [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
 - [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
