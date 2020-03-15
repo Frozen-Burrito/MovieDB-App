@@ -7,8 +7,13 @@ import 'package:movie_app_2/src/widgets/horizontal_scroll.dart';
 
 class HomePage extends StatelessWidget {
 
+  final movieProvider = new MovieProvider();
+
   @override
   Widget build(BuildContext context) {
+
+    movieProvider.getPopular();
+
     return Scaffold(
 
       appBar: AppBar(
@@ -35,8 +40,6 @@ class HomePage extends StatelessWidget {
   }
 
   Widget _cardSwiper() {
-
-    final movieProvider = new MovieProvider();
     
     return FutureBuilder(
       future: movieProvider.getNowPlaying(),
@@ -59,8 +62,6 @@ class HomePage extends StatelessWidget {
 
   Widget _footer(BuildContext context) {
 
-    final movieProvider = new MovieProvider();
-
     return Container(
       width: double.infinity,
 
@@ -73,12 +74,16 @@ class HomePage extends StatelessWidget {
           ),
           SizedBox(height: 20.0,),
 
-          FutureBuilder(
-            future: movieProvider.getPopular(),
+          StreamBuilder(
+            stream: movieProvider.popularStream,
             builder: (BuildContext context, AsyncSnapshot<List> snapshot) {
 
               if (snapshot.hasData) {
-                return HorizontalScroll( items: snapshot.data,);
+                return HorizontalScroll( 
+                  items: snapshot.data, 
+                  nextPage: movieProvider.getPopular,
+                );
+                
               } else {
                 return Center(child: CircularProgressIndicator());
               }
