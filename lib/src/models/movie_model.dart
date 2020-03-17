@@ -17,6 +17,9 @@ class Movies {
 }
 
 class Movie {
+
+  String uniqueId;
+  
   double popularity;
   int voteCount;
   bool video;
@@ -64,7 +67,7 @@ class Movie {
     title = json['title'];
     voteAverage = json['vote_average'] / 1;
     overview = json['overview'];
-    releaseDate = json['releaseDate'];
+    releaseDate = json['release_date'];
   }
 
   getPosterImg() {
@@ -74,5 +77,14 @@ class Movie {
     }
     
     return 'https://image.tmdb.org/t/p/w500/$posterPath';
+  }
+
+  getBackdropImg() {
+
+    if ( backdropPath == null) {
+      return 'https://lh3.googleusercontent.com/proxy/wmbYmY2wCSkYBs9ecCfm9BHTglb8rsz9_41T5FLTZfwxfb86qSQC8iuVaUYRHKyIelVvZrRGh8u-H6eF7EW2Fpab7t6cLz-Y8mXu0IwZ1S-0glj7HYkKF4mz_P5wHMiZkVReebkY';
+    }
+
+    return 'https://image.tmdb.org/t/p/w500/$backdropPath';
   }
 }

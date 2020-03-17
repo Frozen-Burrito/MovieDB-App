@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'dart:async';
 
 import 'package:movie_app_2/src/models/movie_model.dart';
+import 'package:movie_app_2/src/models/actor_model.dart';
 
 class MovieProvider {
   String _apiKey = '62068c4f77360e22a3536d8a1bb9e140';
@@ -27,7 +28,7 @@ class MovieProvider {
     _popularStmController?.close();
   }
 
-  Future<List<Movie>> _getResponse(Uri uri) async {
+  Future<List<Movie>> _getMovieResponse(Uri uri) async {
 
     final resp = await http.get( uri );
     final decodedData = json.decode(resp.body);
@@ -44,7 +45,7 @@ class MovieProvider {
       'language' : _language,
     });
 
-    return _getResponse(uri);
+    return _getMovieResponse(uri);
   }
 
   Future <List<Movie>> getPopular() async {
@@ -60,7 +61,7 @@ class MovieProvider {
       'page' : _page.toString(),
     });
 
-    final resp = await _getResponse(uri);
+    final resp = await _getMovieResponse(uri);
 
     _popular.addAll(resp);
     popularSink(_popular);
@@ -69,4 +70,20 @@ class MovieProvider {
 
     return resp;
   }
+
+  Future <List<Actor>> getCast( String movieId ) async {
+    
+    final url = Uri.https(_url, '3/movie/$movieId/credits', {
+      'api_key' : _apiKey,
+      'language' : _language,
+    });
+
+    final response = await http.get(url);
+    final data = json.decode(response.body);
+
+    final cast = new Cast.fromJsonList(data['cast']);
+
+    return cast.actors;
+  }
+
 }

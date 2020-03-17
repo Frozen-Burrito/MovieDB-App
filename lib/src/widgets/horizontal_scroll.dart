@@ -42,18 +42,23 @@ class HorizontalScroll extends StatelessWidget {
 
   Widget _card(BuildContext context, Movie movie) {
 
-    return Container(
+    movie.uniqueId = '${movie.id}-pageView';
+
+    final movieCard = Container(
       margin: EdgeInsets.only(right: 15.0),
       child: Column(
         children: <Widget>[
-          ClipRRect(
-            borderRadius: BorderRadius.circular(20.0),
-            child: FadeInImage(
-              image: NetworkImage( movie.getPosterImg() ),
-              placeholder: AssetImage('assets/img/no-image.jpg'),
+          Hero(
+            tag: movie.uniqueId,
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(20.0),
+              child: FadeInImage(
+                image: NetworkImage( movie.getPosterImg() ),
+                placeholder: AssetImage('assets/img/no-image.jpg'),
 
-              fit: BoxFit.cover,
-              height: 150.0,
+                fit: BoxFit.cover,
+                height: 150.0,
+              ),
             ),
           ),
 
@@ -68,40 +73,12 @@ class HorizontalScroll extends StatelessWidget {
         ],
       )
     );
-  }
 
-  List<Widget> _cards(BuildContext context) {
-
-    return items.map( (item) {
-
-      return Container(
-        margin: EdgeInsets.only(right: 15.0),
-        child: Column(
-          children: <Widget>[
-            ClipRRect(
-              borderRadius: BorderRadius.circular(20.0),
-              child: FadeInImage(
-                image: NetworkImage( item.getPosterImg() ),
-                placeholder: AssetImage('assets/img/no-image.jpg'),
-
-                fit: BoxFit.cover,
-                height: 150.0,
-              ),
-            ),
-
-            SizedBox(height: 5.0),
-
-            Text(
-              item.title, 
-              overflow: TextOverflow.ellipsis, 
-              textAlign: TextAlign.center,
-              style: Theme.of(context).textTheme.caption,
-            ),
-          ],
-        )
-      );
-
-    }).toList();
-
+    return GestureDetector(
+      child: movieCard,
+      onTap: () {
+        Navigator.pushNamed(context, 'details', arguments: movie);
+      },
+    );
   }
 }
